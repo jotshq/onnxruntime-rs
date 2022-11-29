@@ -120,7 +120,7 @@ impl SessionBuilder {
     /// This function may do anything with the provided `OrtSessionOptions` points, but the
     /// intended application is loading additional Execution Providers (EPs) as part of
     /// `Session` initialization.
-    pub fn with_ep_loader<F>(self, init: F) -> Result<SessionBuilder<'a>>
+    pub fn with_ep_loader<F>(self, init: F) -> Result<SessionBuilder>
     where
         F: Fn(*mut sys::OrtSessionOptions) -> sys::OrtStatusPtr,
     {
@@ -374,7 +374,6 @@ unsafe impl Send for Session {}
 unsafe impl Sync for Session {}
 
 impl Drop for Session {
-
     #[tracing::instrument]
     fn drop(&mut self) {
         debug!("Dropping the session.");
